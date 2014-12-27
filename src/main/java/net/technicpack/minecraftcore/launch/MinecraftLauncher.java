@@ -95,12 +95,12 @@ public class MinecraftLauncher {
 		}
 		commands.add("-Xmx" + memory + "m");
 		if ( Float.parseFloat( System.getProperty( "java.class.version" ) ) < 52.0 ) {
-    		int permSize = 128;
-    		if (memory >= 2048) {
-    			permSize = 256;
-    		}
+			int permSize = 128;
+			if (memory >= 2048) {
+				permSize = 256;
+			}
+			commands.add("-XX:MaxPermSize=" + permSize + "m");
 		}
-		commands.add("-XX:MaxPermSize=" + permSize + "m");
 		commands.add("-Djava.library.path=" + new File(pack.getBinDir(), "natives").getAbsolutePath());
 		// Tell forge 1.5 to download from our mirror instead
 		commands.add("-Dfml.core.libraries.mirror=http://mirror.technicpack.net/Technic/lib/fml/%s");
