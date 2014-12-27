@@ -94,9 +94,11 @@ public class MinecraftLauncher {
 			commands.add("-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump");
 		}
 		commands.add("-Xmx" + memory + "m");
-		int permSize = 128;
-		if (memory >= 2048) {
-			permSize = 256;
+		if ( Float.parseFloat( System.getProperty( "java.class.version" ) ) < 52.0 ) {
+    		int permSize = 128;
+    		if (memory >= 2048) {
+    			permSize = 256;
+    		}
 		}
 		commands.add("-XX:MaxPermSize=" + permSize + "m");
 		commands.add("-Djava.library.path=" + new File(pack.getBinDir(), "natives").getAbsolutePath());
