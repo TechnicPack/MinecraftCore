@@ -55,12 +55,12 @@ public class MinecraftLauncher {
         this.userModel = userModel;
 	}
 
-	public GameProcess launch(ModpackModel pack, int memory, LaunchOptions options, CompleteVersion version) throws IOException {
-		return launch(pack, memory, options, null, version);
+	public GameProcess launch(ModpackModel pack, String javaHome, int memory, LaunchOptions options, CompleteVersion version) throws IOException {
+		return launch(pack, javaHome, memory, options, null, version);
 	}
 
-	public GameProcess launch(ModpackModel pack, long memory, LaunchOptions options, ProcessExitListener exitListener, MojangVersion version) throws IOException {
-		List<String> commands = buildCommands(pack, memory, version, options);
+	public GameProcess launch(ModpackModel pack, String javaHome, long memory, LaunchOptions options, ProcessExitListener exitListener, MojangVersion version) throws IOException {
+		List<String> commands = buildCommands(pack, javaHome, memory, version, options);
 		StringBuilder full = new StringBuilder();
 		boolean first = true;
 
@@ -82,9 +82,9 @@ public class MinecraftLauncher {
 		return mcProcess;
 	}
 
-	private List<String> buildCommands(ModpackModel pack, long memory, MojangVersion version, LaunchOptions options) {
+	private List<String> buildCommands(ModpackModel pack, String javaHome, long memory, MojangVersion version, LaunchOptions options) {
 		List<String> commands = new ArrayList<String>();
-		commands.add(OperatingSystem.getJavaDir());
+		commands.add(OperatingSystem.getJavaDir(javaHome));
 
 		OperatingSystem operatingSystem = OperatingSystem.getOperatingSystem();
 
