@@ -100,13 +100,25 @@ public class MinecraftLauncher {
 			// I have no idea if this helps technic or not.
 			commands.add("-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump");
 		}
+		commands.add("-Xms" + memory + "m");
 		commands.add("-Xmx" + memory + "m");
-		int permSize = 128;
-		if (memory >= 2048) {
-			permSize = 256;
+		//Check if we have Java 8-change shamelessly stolen from heni123321
+		if ( Float.parseFloat( System.getProperty( "java.class.version" ) ) < 52.0 ) {
+			int permSize = 128;
+			if (memory >= 2048) {
+				permSize = 256;
+			}
+			commands.add("-XX:MaxPermSize=" + permSize + "m");
 		}
-
-		commands.add("-XX:MaxPermSize=" + permSize + "m");
+		//Use the java args specified by the user.
+		if (options.getJavaArgs() != null && !options.getJavaArgs().equals(""))
+		{
+			String[] args = options.getJavaArgs().split("\\s");
+			for (String arg : args)
+			{
+				commands.add(arg);
+			}
+		}
 		commands.add("-Djava.library.path=" + new File(pack.getBinDir(), "natives").getAbsolutePath());
 		// Tell forge 1.5 to download from our mirror instead
 		commands.add("-Dfml.core.libraries.mirror=http://mirror.technicpack.net/Technic/lib/fml/%s");
